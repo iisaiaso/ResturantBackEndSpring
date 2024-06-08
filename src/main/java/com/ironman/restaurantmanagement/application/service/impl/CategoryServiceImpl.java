@@ -8,6 +8,7 @@ import com.ironman.restaurantmanagement.application.mapper.CategoryMapper;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
+import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategorySaveDto create(CategoryBodyDto categoryBodyDto) {
         Category category = categoryMapper.toEntity(categoryBodyDto);
-        category.setState("A");
+        category.setState(State.ENABLED.getValue());
         category.setCreated_at(LocalDateTime.now());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
@@ -61,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategorySaveDto disable(Long id) {
         Category category = categoryRepository.findById(id).get();
-        category.setState("E");
+        category.setState(State.DISABLED.getValue());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
     }
