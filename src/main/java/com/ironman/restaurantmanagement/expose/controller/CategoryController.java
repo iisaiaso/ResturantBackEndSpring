@@ -34,6 +34,12 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
+    @Operation(summary = "Mostrar las categorias por el estado")
+    @GetMapping("/state/{state}")
+    public List<CategorySmallDto> findByState(@PathVariable String state){
+        return categoryService.findBySate(state);
+    }
+
     @Operation(summary = "Agregar una categoria")
     @PostMapping
     public CategorySaveDto create(@RequestBody CategoryBodyDto categoryBodyDto) {

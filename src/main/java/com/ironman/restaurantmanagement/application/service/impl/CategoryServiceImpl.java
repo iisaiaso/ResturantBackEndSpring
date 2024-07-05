@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategorySmallDto> findAll() {
-        return ((List<Category>) categoryRepository.findAll())
+        return  categoryRepository.findAll()
                 .stream()
                 .map(categoryMapper::toSmallDto)
                 .toList();
@@ -65,5 +65,13 @@ public class CategoryServiceImpl implements CategoryService {
         category.setState(State.DISABLED.getValue());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
+    }
+
+    @Override
+    public List<CategorySmallDto> findBySate(String state) {
+        return categoryRepository.findByStateIgnoreCaseOrderByIdDesc(state)
+                .stream()
+                .map(categoryMapper::toSmallDto)
+                .toList();
     }
 }

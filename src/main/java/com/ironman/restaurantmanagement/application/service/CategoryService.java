@@ -4,7 +4,7 @@ import com.ironman.restaurantmanagement.application.dto.category.CategoryBodyDto
 import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
-import com.ironman.restaurantmanagement.persistence.entity.Category;
+
 
 import java.util.List;
 
@@ -18,4 +18,6 @@ public interface CategoryService {
     CategorySaveDto update(Long id, CategoryBodyDto categoryBodyDto);
 
     CategorySaveDto disable(Long id);
+
+    List<CategorySmallDto> findBySate(String state);
 }
