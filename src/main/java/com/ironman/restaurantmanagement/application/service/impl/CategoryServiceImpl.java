@@ -66,4 +66,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
     }
+
+    @Override
+    public List<CategorySmallDto> findBySate(String state) {
+        return categoryRepository.findByStateIgnoreCaseOrderByIdDesc(state)
+                .stream()
+                .map(categoryMapper::toSmallDto)
+                .toList();
+    }
 }
