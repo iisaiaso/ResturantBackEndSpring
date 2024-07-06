@@ -9,6 +9,7 @@ import com.ironman.restaurantmanagement.application.service.ProductService;
 import com.ironman.restaurantmanagement.persistence.entity.Product;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
 import com.ironman.restaurantmanagement.persistence.repository.ProductRepository;
+import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.expression.ExpressionException;
@@ -38,17 +39,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto findById(Long id) {
+    public ProductDto findById(Long id) throws DataNotFoundException{
         return productRepository.findById(id)
                 .map(productMapper::toDto)
-                .orElseThrow(() -> new ExpressionException("Error: Product with ID " + id + " not found"));
+                .orElseThrow(() -> productDataNotFoundException(id));
     }
 
     @Override
-    public ProductSaveDto create(ProductBodyDto productBody) {
+    public ProductSaveDto create(ProductBodyDto productBody) throws DataNotFoundException{
         // Check if category exists
         categoryRepository.findById(productBody.getCategoryId())
-                .orElseThrow(() -> new ExpressionException("Category not found with id: " + productBody.getCategoryId()));
+                .orElseThrow(() -> categoryDataNotFoundException(productBody));
 
         Product product = productMapper.toEntity(productBody);
         product.setState(State.ENABLED.getValue());
@@ -58,26 +59,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductSaveDto update(Long id, ProductBodyDto productBody) {
+    public ProductSaveDto update(Long id, ProductBodyDto productBody) throws DataNotFoundException{
         // Check if product
        Product product = productRepository.findById(id)
-                .orElseThrow(()->new ExpressionException("Product not found with id: "+id));
+                .orElseThrow(()-> productDataNotFoundException(id));
 
        // Check if category exists
         categoryRepository.findById(productBody.getCategoryId())
-                .orElseThrow(() -> new ExpressionException("Category not found with id: " + productBody.getCategoryId()));
+                .orElseThrow(() -> categoryDataNotFoundException(productBody));
         productMapper.updateEntity(product,productBody);
 
         return productMapper.toSaveDto(productRepository.save(product));
     }
 
+
     @Override
-    public ProductSaveDto disable(Long id) {
+    public ProductSaveDto disable(Long id) throws DataNotFoundException{
         Product product = productRepository.findById(id)
-                .orElseThrow(()->new ExpressionException("Product not found with id: "+id));
+                .orElseThrow(()-> productDataNotFoundException(id));
 
         product.setState(State.DISABLED.getValue());
 
         return productMapper.toSaveDto(productRepository.save(product));
+    }
+
+    private static DataNotFoundException productDataNotFoundException(Long id) {
+        return new DataNotFoundException("Product not found with id: " + id);
+    }
+
+    private static DataNotFoundException categoryDataNotFoundException(ProductBodyDto productBody) {
+        return new DataNotFoundException("Category not found with id: " + productBody.getCategoryId());
     }
 }

@@ -5,17 +5,18 @@ import com.ironman.restaurantmanagement.application.dto.product.ProductDto;
 import com.ironman.restaurantmanagement.application.dto.product.ProductSaveDto;
 import com.ironman.restaurantmanagement.application.dto.product.ProductSmallDto;
 import com.ironman.restaurantmanagement.persistence.entity.Product;
+import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 
 import java.util.List;
 
 public interface ProductService {
     List<ProductSmallDto> findAll();
 
-    ProductDto findById(Long id) ;
+    ProductDto findById(Long id) throws DataNotFoundException;
 
-    ProductSaveDto create(ProductBodyDto productBodyDto);
+    ProductSaveDto create(ProductBodyDto productBodyDto) throws DataNotFoundException;
 
-    ProductSaveDto update(Long id, ProductBodyDto productBodyDto);
+    ProductSaveDto update(Long id, ProductBodyDto productBodyDto) throws DataNotFoundException;
 
-    ProductSaveDto disable(Long id);
+    ProductSaveDto disable(Long id) throws DataNotFoundException;
 }
