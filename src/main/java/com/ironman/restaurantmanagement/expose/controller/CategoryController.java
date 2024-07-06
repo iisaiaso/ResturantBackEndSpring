@@ -36,8 +36,14 @@ public class CategoryController {
 
     @Operation(summary = "Mostrar las categorias por el estado")
     @GetMapping("/state/{state}")
-    public List<CategorySmallDto> findByState(@PathVariable String state){
+    public List<CategorySmallDto> findByState(@PathVariable String state) {
         return categoryService.findBySate(state);
+    }
+
+    @Operation(summary = "Mostrar las categorias por el nombre")
+    @GetMapping("/name/{name}")
+    public List<CategorySmallDto> findByName(@PathVariable String name) {
+        return categoryService.findByName(name);
     }
 
     @Operation(summary = "Agregar una categoria")

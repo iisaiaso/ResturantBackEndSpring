@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategorySaveDto create(CategoryBodyDto categoryBodyDto) {
         Category category = categoryMapper.toEntity(categoryBodyDto);
         category.setState(State.ENABLED.getValue());
-        category.setCreated_at(LocalDateTime.now());
+        category.setCreatedAt(LocalDateTime.now());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
     }
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id).get();
 
         categoryMapper.updateEntity(category, categoryBodyDto);
-        category.setUpdated_at(LocalDateTime.now());
+        category.setUpdatedAt(LocalDateTime.now());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
     }
@@ -70,6 +70,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategorySmallDto> findBySate(String state) {
         return categoryRepository.findByStateIgnoreCaseOrderByIdDesc(state)
+                .stream()
+                .map(categoryMapper::toSmallDto)
+                .toList();
+    }
+
+    @Override
+    public List<CategorySmallDto> findByName(String name) {
+        return categoryRepository.findByName(name)
                 .stream()
                 .map(categoryMapper::toSmallDto)
                 .toList();

@@ -20,4 +20,7 @@ public interface CategoryService {
     CategorySaveDto disable(Long id);
 
     List<CategorySmallDto> findBySate(String state);
+
+    List<CategorySmallDto> findByName(String name);
+
 }
