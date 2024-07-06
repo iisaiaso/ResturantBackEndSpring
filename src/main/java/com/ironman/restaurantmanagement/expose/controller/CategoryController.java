@@ -5,6 +5,7 @@ import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
+import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class CategoryController {
 
     @Operation(summary = "Mostrar una categoria por el id")
     @GetMapping("/{id}")
-    public CategoryDto findById(@PathVariable("id") Long id) {
+    public CategoryDto findById(@PathVariable("id") Long id) throws DataNotFoundException {
         return categoryService.findById(id);
     }
 
@@ -62,13 +63,13 @@ public class CategoryController {
 
     @Operation(summary = "Actualizar una categoria por el id")
     @PutMapping("/{id}")
-    public CategorySaveDto update(@PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) {
+    public CategorySaveDto update(@PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) throws DataNotFoundException{
         return categoryService.update(id, categoryBodyDto);
     }
 
     @Operation(summary = "Eliminar una categoria por el id")
     @DeleteMapping("/{id}")
-    public CategorySaveDto disable(@PathVariable Long id) {
+    public CategorySaveDto disable(@PathVariable Long id) throws DataNotFoundException{
         return categoryService.disable(id);
     }
 }
