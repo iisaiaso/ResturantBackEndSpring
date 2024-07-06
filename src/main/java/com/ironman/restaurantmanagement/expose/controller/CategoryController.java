@@ -6,6 +6,7 @@ import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,13 +56,13 @@ public class CategoryController {
 
     @Operation(summary = "Agregar una categoria")
     @PostMapping
-    public CategorySaveDto create(@RequestBody CategoryBodyDto categoryBodyDto) {
+    public CategorySaveDto create(@Valid @RequestBody CategoryBodyDto categoryBodyDto) {
         return categoryService.create(categoryBodyDto);
     }
 
     @Operation(summary = "Actualizar una categoria por el id")
     @PutMapping("/{id}")
-    public CategorySaveDto update(@PathVariable Long id, @RequestBody CategoryBodyDto categoryBodyDto) {
+    public CategorySaveDto update(@PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) {
         return categoryService.update(id, categoryBodyDto);
     }
 
