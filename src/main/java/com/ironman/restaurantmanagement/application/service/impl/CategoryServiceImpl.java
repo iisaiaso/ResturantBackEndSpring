@@ -6,6 +6,7 @@ import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
+import com.ironman.restaurantmanagement.shared.page.PageResponse;
 import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -110,9 +111,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDto> paginatedSearch(CategoryFilterDto filter) {
+    public PageResponse<CategoryDto> paginatedSearch(CategoryFilterDto filter) {
         // Variables
-        Pageable pageable =PageRequest.of(filter.getPage(), filter.getSize());
+        Pageable pageable =PageRequest.of(filter.getPage()-1, filter.getSize());
 
         // Process
         Page<Category> categoryPage = categoryRepository.paginatedSearch(
@@ -124,8 +125,20 @@ public class CategoryServiceImpl implements CategoryService {
                 pageable
         );
 
+        List<CategoryDto> content = categoryPage.getContent()
+                .stream()
+                .map(categoryMapper::toDto)
+                .toList();
+
         //Result
-        return categoryPage.map(categoryMapper::toDto);
+        return PageResponse.<CategoryDto>builder()
+                .content(content)
+                .number(categoryPage.getNumber()+1)
+                .numberOfElement(categoryPage.getNumberOfElements())
+                .size(categoryPage.getSize())
+                .totalElements(categoryPage.getTotalElements())
+                .totalPages(categoryPage.getTotalPages())
+                .build();
     }
 
     private static DataNotFoundException categoryDataNotFoundException(Long id) {

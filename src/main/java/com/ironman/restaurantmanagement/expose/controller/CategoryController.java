@@ -6,6 +6,7 @@ import com.ironman.restaurantmanagement.shared.constants.StatusCode;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.exception.model.ArgumentNotValidError;
 import com.ironman.restaurantmanagement.shared.exception.model.GeneralError;
+import com.ironman.restaurantmanagement.shared.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -101,7 +102,7 @@ public class CategoryController {
     @Operation(summary = "Paginado de las categorias por filtro")
     @ApiResponse(responseCode = StatusCode.OK, description = "List of categories paginated by filters")
     @GetMapping("/paginatedSearch")
-    public ResponseEntity<Page<CategoryDto>> paginatedSearch(
+    public ResponseEntity<PageResponse<CategoryDto>> paginatedSearch(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(value = "name", required = false) String name,
