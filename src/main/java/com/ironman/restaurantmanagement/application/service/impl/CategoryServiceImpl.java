@@ -4,6 +4,7 @@ import com.ironman.restaurantmanagement.application.dto.category.*;
 import com.ironman.restaurantmanagement.application.mapper.CategoryMapper;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
+import com.ironman.restaurantmanagement.persistence.enums.CategorySortField;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.page.PageResponse;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -113,7 +115,18 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public PageResponse<CategoryDto> paginatedSearch(CategoryFilterDto filter) {
         // Variables
-        Pageable pageable =PageRequest.of(filter.getPage()-1, filter.getSize());
+        String colum = CategorySortField.getSqlColumn(filter.getSortField());
+
+        Sort.Direction direction = Sort.Direction
+                .fromOptionalString(filter.getSortOrder())
+                .orElse(Sort.Direction.DESC);
+
+        Sort sort = Sort.by(direction, colum);
+
+        Pageable pageable =PageRequest.of(
+                filter.getPage()-1,
+                filter.getSize(),
+                sort);
 
         // Process
         Page<Category> categoryPage = categoryRepository.paginatedSearch(
