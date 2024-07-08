@@ -1,9 +1,6 @@
 package com.ironman.restaurantmanagement.application.service.impl;
 
-import com.ironman.restaurantmanagement.application.dto.category.CategoryBodyDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
+import com.ironman.restaurantmanagement.application.dto.category.*;
 import com.ironman.restaurantmanagement.application.mapper.CategoryMapper;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
@@ -11,10 +8,16 @@ import com.ironman.restaurantmanagement.persistence.repository.CategoryRepositor
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.ironman.restaurantmanagement.shared.util.DateHelper.localDateToString;
+
 
 // Lombok annotations
 @RequiredArgsConstructor
@@ -92,6 +95,37 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream()
                 .map(categoryMapper::toSmallDto)
                 .toList();
+    }
+
+    @Override
+    public Page<CategoryDto> findAllPaginated(int page, int size) {
+        // Variables
+        Pageable pageable = PageRequest.of(page,size);
+
+        // Process
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+
+        // Result
+        return categoryPage.map(categoryMapper::toDto);
+    }
+
+    @Override
+    public Page<CategoryDto> paginatedSearch(CategoryFilterDto filter) {
+        // Variables
+        Pageable pageable =PageRequest.of(filter.getPage(), filter.getSize());
+
+        // Process
+        Page<Category> categoryPage = categoryRepository.paginatedSearch(
+                filter.getName(),
+                filter.getDescription(),
+                filter.getState(),
+                localDateToString(filter.getCreatedAtFrom()),
+                localDateToString(filter.getCreatedAtTo()),
+                pageable
+        );
+
+        //Result
+        return categoryPage.map(categoryMapper::toDto);
     }
 
     private static DataNotFoundException categoryDataNotFoundException(Long id) {
