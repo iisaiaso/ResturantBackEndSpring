@@ -20,6 +20,6 @@ public class CategoryDto {
     private String description;
     private String url_key;
     private String state;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
