@@ -6,22 +6,22 @@ import lombok.Getter;
 
 @Getter
 public enum State {
-    ENABLED("A"){
+    ENABLED("A") {
         @Override
-        public String toString(){
+        public String toString() {
             return "Habilitado";
         }
     },
-    DISABLED("E"){
+    DISABLED("E") {
         @Override
-        public String toString(){
+        public String toString() {
             return "Habilitado";
         }
     };
     private final String value;
     private final String name;
 
-    State(String value){
+    State(String value) {
         this.value = value;
         this.name = this.toString();
     }

@@ -8,12 +8,12 @@ import com.ironman.restaurantmanagement.persistence.enums.CategorySortField;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.page.PageResponse;
+import com.ironman.restaurantmanagement.shared.page.PagingAndSortingBuilder;
 import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,14 +27,18 @@ import static com.ironman.restaurantmanagement.shared.util.DateHelper.localDateT
 
 // Spring annotations
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends PagingAndSortingBuilder implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
+    private static DataNotFoundException categoryDataNotFoundException(Long id) {
+        return new DataNotFoundException("Category not found with id: " + id);
+    }
+
     @Override
     public List<CategorySmallDto> findAll() {
-        return  categoryRepository.findAll()
+        return categoryRepository.findAll()
                 .stream()
                 .map(categoryMapper::toSmallDto)
                 .toList();
@@ -44,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto findById(Long id) throws DataNotFoundException {
         return categoryRepository.findById(id)
                 .map(categoryMapper::toDto)
-                .orElseThrow(()-> categoryDataNotFoundException(id));
+                .orElseThrow(() -> categoryDataNotFoundException(id));
     }
 
     @Override
@@ -57,9 +61,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategorySaveDto update(Long id, CategoryBodyDto categoryBodyDto) throws DataNotFoundException{
+    public CategorySaveDto update(Long id, CategoryBodyDto categoryBodyDto) throws DataNotFoundException {
         Category category = categoryRepository.findById(id)
-                        .orElseThrow(()-> categoryDataNotFoundException(id));
+                .orElseThrow(() -> categoryDataNotFoundException(id));
 
         categoryMapper.updateEntity(category, categoryBodyDto);
         category.setUpdatedAt(LocalDateTime.now());
@@ -68,9 +72,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategorySaveDto disable(Long id) throws DataNotFoundException{
+    public CategorySaveDto disable(Long id) throws DataNotFoundException {
         Category category = categoryRepository.findById(id)
-                        .orElseThrow(()-> categoryDataNotFoundException(id));
+                .orElseThrow(() -> categoryDataNotFoundException(id));
         category.setState(State.DISABLED.getValue());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
@@ -94,22 +98,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategorySmallDto> findAllByFilters(String name, String state) {
-        return categoryRepository.findAllByFilters(name,state)
+        return categoryRepository.findAllByFilters(name, state)
                 .stream()
                 .map(categoryMapper::toSmallDto)
                 .toList();
     }
 
     @Override
-    public Page<CategoryDto> findAllPaginated(int page, int size) {
+    public PageResponse<CategoryDto> findAllPaginated(int page, int size) {
         // Variables
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         // Process
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
 
         // Result
-        return categoryPage.map(categoryMapper::toDto);
+        return buildPageResponse(categoryPage, categoryMapper::toDto);
     }
 
     @Override
@@ -117,17 +121,7 @@ public class CategoryServiceImpl implements CategoryService {
         // Variables
         String colum = CategorySortField.getSqlColumn(filter.getSortField());
 
-        Sort.Direction direction = Sort.Direction
-                .fromOptionalString(filter.getSortOrder())
-                .orElse(Sort.Direction.DESC);
-
-        Sort sort = Sort.by(direction, colum);
-
-        Pageable pageable =PageRequest.of(
-                filter.getPage()-1,
-                filter.getSize(),
-                sort);
-
+        Pageable pageable = buildPageable(filter, colum);
         // Process
         Page<Category> categoryPage = categoryRepository.paginatedSearch(
                 filter.getName(),
@@ -138,23 +132,6 @@ public class CategoryServiceImpl implements CategoryService {
                 pageable
         );
 
-        List<CategoryDto> content = categoryPage.getContent()
-                .stream()
-                .map(categoryMapper::toDto)
-                .toList();
-
-        //Result
-        return PageResponse.<CategoryDto>builder()
-                .content(content)
-                .number(categoryPage.getNumber()+1)
-                .numberOfElement(categoryPage.getNumberOfElements())
-                .size(categoryPage.getSize())
-                .totalElements(categoryPage.getTotalElements())
-                .totalPages(categoryPage.getTotalPages())
-                .build();
-    }
-
-    private static DataNotFoundException categoryDataNotFoundException(Long id) {
-        return new DataNotFoundException("Category not found with id: " + id);
+        return buildPageResponse(categoryPage, categoryMapper::toDto);
     }
 }

@@ -1,6 +1,9 @@
 package com.ironman.restaurantmanagement.shared.page;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 //Patron builder
@@ -11,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public  abstract class PageableRequest {
+public abstract class PageableRequest {
     private int page;
     private int size;
     private String sortField;

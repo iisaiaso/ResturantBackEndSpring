@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -89,7 +88,7 @@ public class CategoryController {
     @Operation(summary = "Paginado y ordenadamineto de las categorias")
     @ApiResponse(responseCode = StatusCode.OK, description = "List of categories paginated")
     @GetMapping("/paginated")
-    public ResponseEntity<Page<CategoryDto>> findAllPaginated(
+    public ResponseEntity<PageResponse<CategoryDto>> findAllPaginated(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {

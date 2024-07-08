@@ -2,7 +2,6 @@ package com.ironman.restaurantmanagement.persistence.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 
@@ -19,7 +18,7 @@ public enum CategorySortField {
     private final String fieldName;
     private final String columName;
 
-    public static String getSqlColumn(String value){
+    public static String getSqlColumn(String value) {
         return Arrays.stream(CategorySortField.values())
                 .filter(sortField -> sortField.getFieldName().equals(value))
                 .findFirst()

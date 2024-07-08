@@ -1,11 +1,8 @@
 package com.ironman.restaurantmanagement.application.service;
 
 import com.ironman.restaurantmanagement.application.dto.category.*;
-import com.ironman.restaurantmanagement.persistence.entity.Category;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.page.PageResponse;
-import org.springframework.data.domain.Page;
-
 
 import java.util.List;
 
@@ -26,7 +23,7 @@ public interface CategoryService {
 
     List<CategorySmallDto> findAllByFilters(String name, String state);
 
-    Page<CategoryDto> findAllPaginated(int page, int size);
+    PageResponse<CategoryDto> findAllPaginated(int page, int size);
 
     PageResponse<CategoryDto> paginatedSearch(CategoryFilterDto filter);
 
