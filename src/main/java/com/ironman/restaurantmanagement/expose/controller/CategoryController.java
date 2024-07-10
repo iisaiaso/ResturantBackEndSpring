@@ -8,12 +8,17 @@ import com.ironman.restaurantmanagement.shared.exception.model.ArgumentNotValidE
 import com.ironman.restaurantmanagement.shared.exception.model.GeneralError;
 import com.ironman.restaurantmanagement.shared.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -102,14 +107,30 @@ public class CategoryController {
     @ApiResponse(responseCode = StatusCode.OK, description = "List of categories paginated by filters")
     @GetMapping("/paginatedSearch")
     public ResponseEntity<PageResponse<CategoryDto>> paginatedSearch(
+            @NotNull(message="Page is required")
+            @Min(value = 1, message = "Page must be a positive number")
             @RequestParam(name = "page", defaultValue = "1") int page,
+
+            @NotNull(message = "Size is required")
+            @Min(value = 1, message = "Size must be a positive number")
             @RequestParam(name = "size", defaultValue = "10") int size,
+
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "description", required = false) String description,
+
+            @Parameter(description = "State must be 'A' for enabled and 'E' for disabled")
+            @Pattern(regexp = "^[AE]$", message = "State must be 'A' for enabled and 'E' for disabled")
             @RequestParam(value = "state", required = false) String state,
+
             @RequestParam(value = "createdAtFrom", required = false) LocalDate createdAtFrom,
             @RequestParam(value = "createdAtTo", required = false) LocalDate createdAtTo,
+
+            @Parameter(description = "SortField must be 'id', 'name', 'state' or 'createdAt' (default:'id')")
+            @Pattern(regexp ="^(id|name|state|createdAt)$" , message = "SortField must be 'id', 'name', 'state' or 'createdAt' (default:'id')")
             @RequestParam(value = "sortField", required = false) String sortField,
+
+            @Parameter(description = "SortOrder must be 'ASC' or 'DESC' (default:'DESC')")
+            @Pattern(regexp = "^(ASC|DESC)$", message = "SortOrder must be 'ASC' or 'DESC' (default:'DESC')")
             @RequestParam(value = "sortOrder", required = false) String sortOrder
     ) {
         CategoryFilterDto filter = CategoryFilterDto.builder()
