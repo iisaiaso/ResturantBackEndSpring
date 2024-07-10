@@ -17,7 +17,7 @@ import java.util.Map;
 public class ApplicationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ArgumentNotValidError> handleInvalidArgument(MethodArgumentNotValidException exception){
+    public ResponseEntity<ArgumentNotValidError> handleInvalidArgument(MethodArgumentNotValidException exception) {
         // Variables
         ArgumentNotValidError response = new ArgumentNotValidError();
         Map<String, String> error = new HashMap<>();
@@ -38,7 +38,7 @@ public class ApplicationExceptionHandler {
     }
 
     @ExceptionHandler(DataNotFoundException.class)
-    public ResponseEntity<GeneralError> handleDataNotFound(DataNotFoundException exception){
+    public ResponseEntity<GeneralError> handleDataNotFound(DataNotFoundException exception) {
         // Variables
         GeneralError response = new GeneralError();
 

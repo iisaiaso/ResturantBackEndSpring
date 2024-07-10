@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-    //Lombok Annotation
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class CategorySmallDto {
-        private Long id;
-        private String name;
-    }
+//Lombok Annotation
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategorySmallDto {
+    private Long id;
+    private String name;
+}
 
