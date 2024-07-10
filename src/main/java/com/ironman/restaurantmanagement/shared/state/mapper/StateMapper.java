@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ValueMapping;
 
-// Mapstruct annotations
+// Mapper annotations
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface StateMapper {
     @ValueMapping(source = "A", target = "ENABLED")
