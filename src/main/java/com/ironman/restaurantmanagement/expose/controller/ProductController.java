@@ -1,9 +1,5 @@
 package com.ironman.restaurantmanagement.expose.controller;
 
-import com.ironman.restaurantmanagement.application.dto.category.CategoryBodyDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto;
-import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.application.dto.product.ProductBodyDto;
 import com.ironman.restaurantmanagement.application.dto.product.ProductDto;
 import com.ironman.restaurantmanagement.application.dto.product.ProductSaveDto;
@@ -11,6 +7,7 @@ import com.ironman.restaurantmanagement.application.dto.product.ProductSmallDto;
 import com.ironman.restaurantmanagement.application.service.ProductService;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@Tag(name = "ProductController", description = "Operations pertaining to products")
 public class ProductController {
 
     private final ProductService productService;
@@ -45,19 +43,19 @@ public class ProductController {
 
     @Operation(summary = "Agregar un producto")
     @PostMapping
-    public ProductSaveDto create(@RequestBody ProductBodyDto productBody) throws DataNotFoundException{
+    public ProductSaveDto create(@RequestBody ProductBodyDto productBody) throws DataNotFoundException {
         return productService.create(productBody);
     }
 
     @Operation(summary = "Actualizar un producto por el id")
     @PutMapping("/{id}")
-    public ProductSaveDto update(@PathVariable Long id, @RequestBody ProductBodyDto productBody) throws DataNotFoundException{
+    public ProductSaveDto update(@PathVariable Long id, @RequestBody ProductBodyDto productBody) throws DataNotFoundException {
         return productService.update(id, productBody);
     }
 
     @Operation(summary = "Eliminar una producto por el id")
     @DeleteMapping("/{id}")
-    public ProductSaveDto disable(@PathVariable Long id) throws DataNotFoundException{
+    public ProductSaveDto disable(@PathVariable Long id) throws DataNotFoundException {
         return productService.disable(id);
     }
 }

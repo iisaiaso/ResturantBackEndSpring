@@ -1,7 +1,7 @@
 package com.ironman.restaurantmanagement.application.dto.product;
 
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
-import com.ironman.restaurantmanagement.persistence.entity.Category;
+import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class ProductDto {
     public BigDecimal price;
     public Integer stock;
     public CategorySmallDto category;
-    public String state;
+    public State state;
     public LocalDateTime createdAt;
     public LocalDateTime updateAt;
 }

@@ -1,13 +1,10 @@
 package com.ironman.restaurantmanagement.application.dto.product;
 
-import com.ironman.restaurantmanagement.persistence.entity.Category;
+import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 //Lombok annotations
 @Getter
@@ -16,5 +13,5 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProductSaveDto {
     public Long id;
-    public String state;
+    public State state;
 }
