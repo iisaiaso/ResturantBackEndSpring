@@ -28,14 +28,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
 
-    private static DataNotFoundException productDataNotFoundException(Long id) {
-        return new DataNotFoundException("Product not found with id: " + id);
-    }
-
-    private static DataNotFoundException categoryDataNotFoundException(ProductBodyDto productBody) {
-        return new DataNotFoundException("Category not found with id: " + productBody.getCategoryId());
-    }
-
     @Override
     public List<ProductSmallDto> findAll() {
         return productRepository.findAll()
@@ -87,5 +79,13 @@ public class ProductServiceImpl implements ProductService {
         product.setState(State.DISABLED.getValue());
 
         return productMapper.toSaveDto(productRepository.save(product));
+    }
+
+    private static DataNotFoundException productDataNotFoundException(Long id) {
+        return new DataNotFoundException("Product not found with id: " + id);
+    }
+
+    private static DataNotFoundException categoryDataNotFoundException(ProductBodyDto productBody) {
+        return new DataNotFoundException("Category not found with id: " + productBody.getCategoryId());
     }
 }
