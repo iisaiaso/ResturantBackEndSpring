@@ -1,6 +1,7 @@
 package com.ironman.restaurantmanagement.application.dto.category;
 
 
+import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategorySaveDto {
     private Long id;
-    private String state;
+    private State state;
 
 }

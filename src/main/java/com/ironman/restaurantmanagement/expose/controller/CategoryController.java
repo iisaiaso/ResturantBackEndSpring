@@ -18,7 +18,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -107,7 +106,7 @@ public class CategoryController {
     @ApiResponse(responseCode = StatusCode.OK, description = "List of categories paginated by filters")
     @GetMapping("/paginatedSearch")
     public ResponseEntity<PageResponse<CategoryDto>> paginatedSearch(
-            @NotNull(message="Page is required")
+            @NotNull(message = "Page is required")
             @Min(value = 1, message = "Page must be a positive number")
             @RequestParam(name = "page", defaultValue = "1") int page,
 
@@ -126,7 +125,7 @@ public class CategoryController {
             @RequestParam(value = "createdAtTo", required = false) LocalDate createdAtTo,
 
             @Parameter(description = "SortField must be 'id', 'name', 'state' or 'createdAt' (default:'id')")
-            @Pattern(regexp ="^(id|name|state|createdAt)$" , message = "SortField must be 'id', 'name', 'state' or 'createdAt' (default:'id')")
+            @Pattern(regexp = "^(id|name|state|createdAt)$", message = "SortField must be 'id', 'name', 'state' or 'createdAt' (default:'id')")
             @RequestParam(value = "sortField", required = false) String sortField,
 
             @Parameter(description = "SortOrder must be 'ASC' or 'DESC' (default:'DESC')")

@@ -5,12 +5,14 @@ import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySaveDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
+import com.ironman.restaurantmanagement.shared.state.mapper.StateMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
 // MapStruct Annotations
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = {StateMapper.class})
 public interface CategoryMapper {
 
     CategoryDto toDto(Category category);
