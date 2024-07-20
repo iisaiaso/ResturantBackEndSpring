@@ -19,15 +19,13 @@ public interface CategoryRepository extends
 
     @Query(value = "SELECT c FROM Category AS c " +
             "WHERE UPPER(c.name) LIKE UPPER(CONCAT('%', :name, '%')) " +
-            "ORDER BY c.id DESC"
-    )
+            "ORDER BY c.id DESC")
     List<Category> findByName(@Param("name") String name);
 
 
     @Query(value = "SELECT c FROM Category AS c " +
             "WHERE ( :#{#name} IS NULL OR UPPER(c.name) LIKE UPPER(CONCAT('%', :name, '%')) ) " +
-            "AND ( :#{#state} IS NULL OR  UPPER(c.state) = UPPER(:state) )"
-    )
+            "AND ( :#{#state} IS NULL OR  UPPER(c.state) = UPPER(:state) )")
     List<Category> findAllByFilters(@Param("name") String name, @Param("state") String state);
 
 
@@ -37,15 +35,14 @@ public interface CategoryRepository extends
             "WHERE ( :name IS NULL OR UPPER(c.name) LIKE UPPER(CONCAT('%', :name, '%')) ) " +
             "AND ( :description IS NULL OR UPPER(c.name) LIKE UPPER(CONCAT('%', :description, '%')) ) " +
             "AND ( :state IS NULL OR  UPPER(c.state) = UPPER(:state) ) " +
-            "AND ( :createdAtFrom IS NULL OR DATE(c.created_at) >= TO_DATE(:createdAtFrom, 'YYYY-MM-DD') ) " +
-            "AND ( :createdAtTo IS NULL OR DATE(c.created_at) <= TO_DATE(:createdAtFrom, 'YYYY-MM-DD') ) "
-            , nativeQuery = true)
+            "AND ( :createdAtFrom IS NULL OR DATE(c.created_at) >= TO_DATE(:createdAtFrom, 'YYYY-MM-DD') ) "
+            +
+            "AND ( :createdAtTo IS NULL OR DATE(c.created_at) <= TO_DATE(:createdAtFrom, 'YYYY-MM-DD') ) ", nativeQuery = true)
     Page<Category> paginatedSearch(
             @Param("name") String name,
             @Param("description") String description,
             @Param("state") String state,
             @Param("createdAtFrom") String createdAtFrom,
             @Param("createdAtTo") String createdAtTo,
-            Pageable pageable
-    );
+            Pageable pageable);
 }

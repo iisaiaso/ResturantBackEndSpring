@@ -68,6 +68,7 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
         categoryMapper.updateEntity(category, categoryBodyDto);
         category.setUpdatedAt(LocalDateTime.now());
 
+        System.out.println(category);
         return categoryMapper.toSaveDto(categoryRepository.save(category));
     }
 

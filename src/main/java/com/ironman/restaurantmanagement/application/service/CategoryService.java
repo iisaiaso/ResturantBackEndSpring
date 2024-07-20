@@ -27,5 +27,4 @@ public interface CategoryService {
 
     PageResponse<CategoryDto> paginatedSearch(CategoryFilterDto filter);
 
-
 }
