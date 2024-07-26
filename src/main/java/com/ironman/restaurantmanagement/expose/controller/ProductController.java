@@ -7,10 +7,9 @@ import com.ironman.restaurantmanagement.shared.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 // Lombok annotations
 @RequiredArgsConstructor
@@ -65,11 +64,11 @@ public class ProductController {
     }
 
 
-    @Operation(summary ="Busqueda paginada de los productos")
+    @Operation(summary = "Busqueda paginada de los productos")
     @GetMapping("/paginatedSearch")
     public PageResponse<ProductDto> paginatedSearch(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size",required = false, defaultValue = "10") int size,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
 
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "description", required = false) String description,
@@ -80,16 +79,16 @@ public class ProductController {
             @RequestParam(value = "sortOrder", required = false) String sortOrder
     ) {
         var filter = ProductFilterDto.builder()
-                .page(page)
-                .size(size)
-                .name(name)
-                .description(description)
-                .state(state)
-                .createdAtFrom(createdAtFrom)
-                .createdAtTo(createdAtTo)
-                .sortField(sortField)
-                .sortOrder(sortOrder)
-                .build();
+                                     .page(page)
+                                     .size(size)
+                                     .name(name)
+                                     .description(description)
+                                     .state(state)
+                                     .createdAtFrom(createdAtFrom)
+                                     .createdAtTo(createdAtTo)
+                                     .sortField(sortField)
+                                     .sortOrder(sortOrder)
+                                     .build();
 
         return productService.paginatedSearch(filter);
     }

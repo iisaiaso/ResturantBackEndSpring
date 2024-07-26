@@ -3,14 +3,13 @@ package com.ironman.restaurantmanagement.expose.exception;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.exception.model.ArgumentNotValidError;
 import com.ironman.restaurantmanagement.shared.exception.model.GeneralError;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
 
 // Spring stereotype annotations
 @RestControllerAdvice

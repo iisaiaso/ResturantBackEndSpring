@@ -1,14 +1,13 @@
 package com.ironman.restaurantmanagement.persistence.repository;
 
 import com.ironman.restaurantmanagement.persistence.entity.Category;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface CategoryRepository
         extends ListCrudRepository<Category, Long>,

@@ -1,12 +1,11 @@
 package com.ironman.restaurantmanagement.application.dto.category;
 
 import com.ironman.restaurantmanagement.shared.state.enums.State;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 //Lombok Annotation
 @Getter

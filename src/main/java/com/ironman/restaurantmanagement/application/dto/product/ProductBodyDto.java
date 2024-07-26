@@ -1,11 +1,10 @@
 package com.ironman.restaurantmanagement.application.dto.product;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 //Lombok annotations
 @Getter

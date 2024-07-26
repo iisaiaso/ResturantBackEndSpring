@@ -1,8 +1,7 @@
 package com.ironman.restaurantmanagement.shared.page;
 
-import lombok.*;
-
 import java.util.List;
+import lombok.*;
 
 // Lombok annotations
 @Builder

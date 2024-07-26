@@ -1,12 +1,11 @@
 package com.ironman.restaurantmanagement.shared.page;
 
+import java.util.List;
+import java.util.function.Function;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.util.List;
-import java.util.function.Function;
 
 public abstract class PagingAndSortingBuilder {
     public <T, U> PageResponse<U> buildPageResponse(Page<T> page, Function<T, U> converter) {

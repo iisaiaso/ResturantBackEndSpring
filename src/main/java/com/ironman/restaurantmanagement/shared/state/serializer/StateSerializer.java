@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.ironman.restaurantmanagement.shared.state.enums.State;
-
 import java.io.IOException;
 
 public class StateSerializer extends StdSerializer<State> {
