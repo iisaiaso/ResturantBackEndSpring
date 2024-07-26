@@ -1,6 +1,5 @@
 package com.ironman.restaurantmanagement.application.dto.category;
 
-
 import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

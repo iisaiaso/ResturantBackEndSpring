@@ -30,7 +30,8 @@ public class SwaggerConfig {
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://springdoc.org"))*/)
-                .addServersItem(new Server().url("http://localhost:8090").description("Development server"))
+                .addServersItem(new Server().url("http://localhost:8090")
+                                            .description("Development server"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
@@ -43,17 +44,17 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi categoryApi() {
         return GroupedOpenApi.builder()
-                .group("categories")
-                .pathsToMatch("/categories/**")
-                .build();
+                             .group("categories")
+                             .pathsToMatch("/categories/**")
+                             .build();
     }
 
     @Bean
     public GroupedOpenApi productApi() {
         return GroupedOpenApi.builder()
-                .group("products")
-                .pathsToMatch("/products/**")
-                .build();
+                             .group("products")
+                             .pathsToMatch("/products/**")
+                             .build();
     }
 
 

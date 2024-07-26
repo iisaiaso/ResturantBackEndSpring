@@ -11,19 +11,19 @@ import java.util.function.Function;
 public abstract class PagingAndSortingBuilder {
     public <T, U> PageResponse<U> buildPageResponse(Page<T> page, Function<T, U> converter) {
         List<U> content = page.getContent()
-                .stream()
-                .map(converter)
-                .toList();
+                              .stream()
+                              .map(converter)
+                              .toList();
 
         //Result
         return PageResponse.<U>builder()
-                .content(content)
-                .number(page.getNumber() + 1)
-                .numberOfElement(page.getNumberOfElements())
-                .size(page.getSize())
-                .totalElements(page.getTotalElements())
-                .totalPages(page.getTotalPages())
-                .build();
+                           .content(content)
+                           .number(page.getNumber() + 1)
+                           .numberOfElement(page.getNumberOfElements())
+                           .size(page.getSize())
+                           .totalElements(page.getTotalElements())
+                           .totalPages(page.getTotalPages())
+                           .build();
     }
 
     public Pageable buildPageable(PageableRequest request, String sqlColumn) {

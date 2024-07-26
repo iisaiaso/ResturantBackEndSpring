@@ -10,9 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        uses = {StateMapper.class, CategoryMapper.class}
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StateMapper.class,
+        CategoryMapper.class})
 public interface ProductMapper {
     ProductDto toDto(Product product);
 

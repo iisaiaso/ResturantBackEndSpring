@@ -21,7 +21,6 @@ import java.util.List;
 
 import static com.ironman.restaurantmanagement.shared.util.DateHelper.localDateToString;
 
-
 // Lombok annotations
 @RequiredArgsConstructor
 
@@ -32,23 +31,20 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    private static DataNotFoundException categoryDataNotFoundException(Long id) {
-        return new DataNotFoundException("Category not found with id: " + id);
-    }
 
     @Override
     public List<CategorySmallDto> findAll() {
         return categoryRepository.findAll()
-                .stream()
-                .map(categoryMapper::toSmallDto)
-                .toList();
+                                 .stream()
+                                 .map(categoryMapper::toSmallDto)
+                                 .toList();
     }
 
     @Override
     public CategoryDto findById(Long id) throws DataNotFoundException {
         return categoryRepository.findById(id)
-                .map(categoryMapper::toDto)
-                .orElseThrow(() -> categoryDataNotFoundException(id));
+                                 .map(categoryMapper::toDto)
+                                 .orElseThrow(() -> categoryDataNotFoundException(id));
     }
 
     @Override
@@ -63,7 +59,7 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
     @Override
     public CategorySaveDto update(Long id, CategoryBodyDto categoryBodyDto) throws DataNotFoundException {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> categoryDataNotFoundException(id));
+                                              .orElseThrow(() -> categoryDataNotFoundException(id));
 
         categoryMapper.updateEntity(category, categoryBodyDto);
         category.setUpdatedAt(LocalDateTime.now());
@@ -75,7 +71,7 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
     @Override
     public CategorySaveDto disable(Long id) throws DataNotFoundException {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> categoryDataNotFoundException(id));
+                                              .orElseThrow(() -> categoryDataNotFoundException(id));
         category.setState(State.DISABLED.getValue());
 
         return categoryMapper.toSaveDto(categoryRepository.save(category));
@@ -84,25 +80,25 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
     @Override
     public List<CategorySmallDto> findBySate(String state) {
         return categoryRepository.findByStateIgnoreCaseOrderByIdDesc(state)
-                .stream()
-                .map(categoryMapper::toSmallDto)
-                .toList();
+                                 .stream()
+                                 .map(categoryMapper::toSmallDto)
+                                 .toList();
     }
 
     @Override
     public List<CategorySmallDto> findByName(String name) {
         return categoryRepository.findByName(name)
-                .stream()
-                .map(categoryMapper::toSmallDto)
-                .toList();
+                                 .stream()
+                                 .map(categoryMapper::toSmallDto)
+                                 .toList();
     }
 
     @Override
     public List<CategorySmallDto> findAllByFilters(String name, String state) {
         return categoryRepository.findAllByFilters(name, state)
-                .stream()
-                .map(categoryMapper::toSmallDto)
-                .toList();
+                                 .stream()
+                                 .map(categoryMapper::toSmallDto)
+                                 .toList();
     }
 
     @Override
@@ -123,6 +119,7 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
         String colum = CategorySortField.getSqlColumn(filter.getSortField());
 
         Pageable pageable = buildPageable(filter, colum);
+
         // Process
         Page<Category> categoryPage = categoryRepository.paginatedSearch(
                 filter.getName(),
@@ -133,6 +130,11 @@ public class CategoryServiceImpl extends PagingAndSortingBuilder implements Cate
                 pageable
         );
 
+        // Result
         return buildPageResponse(categoryPage, categoryMapper::toDto);
+    }
+
+    private static DataNotFoundException categoryDataNotFoundException(Long id) {
+        return new DataNotFoundException("Category not found with id: " + id);
     }
 }

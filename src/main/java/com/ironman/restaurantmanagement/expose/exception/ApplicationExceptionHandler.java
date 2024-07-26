@@ -24,17 +24,17 @@ public class ApplicationExceptionHandler {
 
         //Process
         exception.getBindingResult()
-                .getFieldErrors()
-                .forEach(fieldError -> {
-                    error.put(fieldError.getField(), fieldError.getDefaultMessage());
-                });
+                 .getFieldErrors()
+                 .forEach(fieldError -> {
+                     error.put(fieldError.getField(), fieldError.getDefaultMessage());
+                 });
 
         response.setMessage("Invalid Argument");
         response.setError(error);
 
         // Result
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(response);
+                             .body(response);
     }
 
     @ExceptionHandler(DataNotFoundException.class)
@@ -47,6 +47,6 @@ public class ApplicationExceptionHandler {
 
         // Result
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(response);
+                             .body(response);
     }
 }

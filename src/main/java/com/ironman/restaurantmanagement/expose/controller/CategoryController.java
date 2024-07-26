@@ -41,7 +41,7 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<CategorySmallDto>> findAll() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findAll());
+                             .body(categoryService.findAll());
     }
 
 
@@ -58,7 +58,7 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable("id") Long id) throws DataNotFoundException {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findById(id));
+                             .body(categoryService.findById(id));
     }
 
 
@@ -67,7 +67,7 @@ public class CategoryController {
     @GetMapping("/state/{state}")
     public ResponseEntity<List<CategorySmallDto>> findByState(@PathVariable String state) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findBySate(state));
+                             .body(categoryService.findBySate(state));
     }
 
 
@@ -76,7 +76,7 @@ public class CategoryController {
     @GetMapping("/name/{name}")
     public ResponseEntity<List<CategorySmallDto>> findByName(@PathVariable String name) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findByName(name));
+                             .body(categoryService.findByName(name));
     }
 
 
@@ -86,7 +86,7 @@ public class CategoryController {
     public ResponseEntity<List<CategorySmallDto>> findAllFilters(@RequestParam(value = "name", required = false) String name,
                                                                  @RequestParam(value = "state", required = false) String state) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findAllByFilters(name, state));
+                             .body(categoryService.findAllByFilters(name, state));
     }
 
     @Operation(summary = "Paginado y ordenadamineto de las categorias")
@@ -98,7 +98,7 @@ public class CategoryController {
     ) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.findAllPaginated(page, size));
+                             .body(categoryService.findAllPaginated(page, size));
     }
 
 
@@ -133,19 +133,19 @@ public class CategoryController {
             @RequestParam(value = "sortOrder", required = false) String sortOrder
     ) {
         CategoryFilterDto filter = CategoryFilterDto.builder()
-                .page(page)
-                .size(size)
-                .name(name)
-                .description(description)
-                .state(state)
-                .createdAtFrom(createdAtFrom)
-                .createdAtTo(createdAtTo)
-                .sortField(sortField)
-                .sortOrder(sortOrder)
-                .build();
+                                                    .page(page)
+                                                    .size(size)
+                                                    .name(name)
+                                                    .description(description)
+                                                    .state(state)
+                                                    .createdAtFrom(createdAtFrom)
+                                                    .createdAtTo(createdAtTo)
+                                                    .sortField(sortField)
+                                                    .sortOrder(sortOrder)
+                                                    .build();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.paginatedSearch(filter));
+                             .body(categoryService.paginatedSearch(filter));
     }
 
 
@@ -162,7 +162,7 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<CategorySaveDto> create(@Valid @RequestBody CategoryBodyDto categoryBodyDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(categoryService.create(categoryBodyDto));
+                             .body(categoryService.create(categoryBodyDto));
     }
 
     @Operation(summary = "Actualizar una categoria por el id")
@@ -186,7 +186,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<CategorySaveDto> update(@PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) throws DataNotFoundException {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.update(id, categoryBodyDto));
+                             .body(categoryService.update(id, categoryBodyDto));
     }
 
 
@@ -203,6 +203,6 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<CategorySaveDto> disable(@PathVariable Long id) throws DataNotFoundException {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.disable(id));
+                             .body(categoryService.disable(id));
     }
 }

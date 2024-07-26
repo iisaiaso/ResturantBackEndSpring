@@ -11,8 +11,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
 // MapStruct Annotations
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        uses = {StateMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StateMapper.class})
 public interface CategoryMapper {
 
     CategoryDto toDto(Category category);

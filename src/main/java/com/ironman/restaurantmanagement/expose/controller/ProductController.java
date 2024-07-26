@@ -1,28 +1,16 @@
 package com.ironman.restaurantmanagement.expose.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ironman.restaurantmanagement.application.dto.product.ProductBodyDto;
-import com.ironman.restaurantmanagement.application.dto.product.ProductDto;
-import com.ironman.restaurantmanagement.application.dto.product.ProductSaveDto;
-import com.ironman.restaurantmanagement.application.dto.product.ProductSmallDto;
+import com.ironman.restaurantmanagement.application.dto.product.*;
 import com.ironman.restaurantmanagement.application.service.ProductService;
 import com.ironman.restaurantmanagement.shared.exception.DataNotFoundException;
 import com.ironman.restaurantmanagement.shared.page.PageResponse;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 // Lombok annotations
 @RequiredArgsConstructor
@@ -76,6 +64,37 @@ public class ProductController {
         return productService.findAllPaginated(page, size);
     }
 
+
+    @Operation(summary ="Busqueda paginada de los productos")
+    @GetMapping("/paginatedSearch")
+    public PageResponse<ProductDto> paginatedSearch(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size",required = false, defaultValue = "10") int size,
+
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "state", required = false) String state,
+            @RequestParam(value = "createdAtFrom", required = false) LocalDate createdAtFrom,
+            @RequestParam(value = "createdAtTo", required = false) LocalDate createdAtTo,
+            @RequestParam(value = "sortField", required = false) String sortField,
+            @RequestParam(value = "sortOrder", required = false) String sortOrder
+    ) {
+        var filter = ProductFilterDto.builder()
+                .page(page)
+                .size(size)
+                .name(name)
+                .description(description)
+                .state(state)
+                .createdAtFrom(createdAtFrom)
+                .createdAtTo(createdAtTo)
+                .sortField(sortField)
+                .sortOrder(sortOrder)
+                .build();
+
+        return productService.paginatedSearch(filter);
+    }
+
+
     @Operation(summary = "Agregar un producto")
     @PostMapping
     public ProductSaveDto create(@RequestBody ProductBodyDto productBody) throws DataNotFoundException {
@@ -84,8 +103,9 @@ public class ProductController {
 
     @Operation(summary = "Actualizar un producto por el id")
     @PutMapping("/{id}")
-    public ProductSaveDto update(@PathVariable Long id, @RequestBody ProductBodyDto productBody)
-            throws DataNotFoundException {
+    public ProductSaveDto update(
+            @PathVariable Long id,
+            @RequestBody ProductBodyDto productBody) throws DataNotFoundException {
         return productService.update(id, productBody);
     }
 
