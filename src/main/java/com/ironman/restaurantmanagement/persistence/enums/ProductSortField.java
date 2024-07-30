@@ -11,6 +11,7 @@ public enum ProductSortField {
     ID("id", "id"),
     NAME("name", "name"),
     DESCRIPTION("description", "description"),
+    STOCK("stock", "stock"),
     CATEGORY_ID("categoryId", "categoryId"),
     STATE("state", "state"),
     CREATED_AT("createdAt", "created_at");
@@ -23,7 +24,7 @@ public enum ProductSortField {
                      .filter(sortField -> sortField.getFieldName()
                                                    .equals(value))
                      .findFirst()
-                     .map(ProductSortField::getFieldName)
+                     .map(ProductSortField::getColumName)
                      .orElseGet(ID::getColumName);
     }
 

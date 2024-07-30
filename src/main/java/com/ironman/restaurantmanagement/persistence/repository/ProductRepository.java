@@ -37,6 +37,8 @@ public interface ProductRepository extends ListCrudRepository<Product, Long>,
             "INNER JOIN categories c ON c.id = p.category_id " +
             "WHERE ( :name IS NULL OR UPPER(p.name) LIKE UPPER(CONCAT('%', :name, '%')) ) " +
             "AND ( :description IS NULL OR UPPER(p.description) LIKE UPPER(CONCAT('%', :description, '%')) ) " +
+            "AND ( :categoryId IS NULL OR p.category_id = :categoryId) " +
+            "AND ( :stock IS NULL OR p.stock <= :stock) " +
             "AND ( :state IS NULL OR UPPER(p.state) = UPPER(:state) ) " +
             "AND ( :createdAtFrom IS NULL OR DATE(p.created_at) >= TO_DATE(:createdAtFrom, 'YYYY-MM-DD') ) " +
             "AND ( :createdAtTo IS NULL OR DATE(p.created_at) <= TO_DATE(:createdAtTo, 'YYYY-MM-DD') ) ",
@@ -45,6 +47,8 @@ public interface ProductRepository extends ListCrudRepository<Product, Long>,
     Page<Product> paginatedSearch(
             @Param("name") String name,
             @Param("description") String description,
+            @Param("categoryId") Long categoryId,
+            @Param("stock") Integer stock,
             @Param("state") String state,
             @Param("createdAtFrom") String createdAtFrom,
             @Param("createdAtTo") String createdAtTo,
