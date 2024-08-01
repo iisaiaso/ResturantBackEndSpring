@@ -135,7 +135,8 @@ public class ProductServiceImpl extends PagingAndSortingBuilder implements Produ
         var pageProduct = productRepository.paginatedSearch(
                 filter.getName(),
                 filter.getDescription(),
-                // filter.getCategoryId(),
+                filter.getCategoryId(),
+                filter.getStock(),
                 filter.getState(),
                 localDateToString(filter.getCreatedAtFrom()),
                 localDateToString(filter.getCreatedAtTo()),

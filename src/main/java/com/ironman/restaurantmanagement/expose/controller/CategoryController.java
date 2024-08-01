@@ -183,7 +183,8 @@ public class CategoryController {
             )
     )
     @PutMapping("/{id}")
-    public ResponseEntity<CategorySaveDto> update(@PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) throws DataNotFoundException {
+    public ResponseEntity<CategorySaveDto> update(
+            @PathVariable Long id, @Valid @RequestBody CategoryBodyDto categoryBodyDto) throws DataNotFoundException {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(categoryService.update(id, categoryBodyDto));
     }

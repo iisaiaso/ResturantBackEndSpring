@@ -17,7 +17,8 @@ import lombok.experimental.SuperBuilder;
 public class ProductFilterDto extends PageableRequest {
     private String name;
     private String description;
-    //    private Long categoryId;
+    private Long categoryId;
+    private Integer stock;
     private String state;
     private LocalDate createdAtFrom;
     private LocalDate createdAtTo;
